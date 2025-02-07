@@ -43,7 +43,7 @@ public class JobSeekerProfileController {
 
     @GetMapping("/")
 
-    public String JobSeekerProfile(Model model){
+    public String jobSeekerProfile(Model model){
 
 
         JobSeekerProfile jobSeekerProfile = new JobSeekerProfile();
@@ -70,7 +70,7 @@ public class JobSeekerProfileController {
 
     @PostMapping("/addNew")
     public String addNew(JobSeekerProfile jobSeekerProfile,
-                         @RequestParam("image")MultipartFile image,
+                         @RequestParam("image") MultipartFile image,
                          @RequestParam("pdf") MultipartFile pdf,
                          Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -89,15 +89,15 @@ public class JobSeekerProfileController {
             skills.setJobSeekerProfile(jobSeekerProfile);
         }
 
-        String imageName =" ";
-        String resumeName =" ";
+        String imageName ="";
+        String resumeName ="";
 
-        if(!Objects.equals(image.getOriginalFilename(), " ")) {
+        if(!Objects.equals(image.getOriginalFilename(), "")) {
             imageName = StringUtils.cleanPath(Objects.requireNonNull(image.getOriginalFilename()));
             jobSeekerProfile.setProfilePhoto(imageName);
         }
 
-        if(!Objects.equals(pdf.getOriginalFilename(), " ")) {
+        if(!Objects.equals(pdf.getOriginalFilename(), "")) {
             resumeName = StringUtils.cleanPath(Objects.requireNonNull(pdf.getOriginalFilename()));
             jobSeekerProfile.setResume(resumeName);
         }
@@ -105,12 +105,12 @@ public class JobSeekerProfileController {
         JobSeekerProfile seekerProfile = jobSeekerProfileService.addNew(jobSeekerProfile);
 
         try{
-            String uploadDir = "/photos/candidate/" + jobSeekerProfile.getUserAccountId();
-            if (!Objects.equals(image.getOriginalFilename(), " ")) {
+            String uploadDir = "photos/candidate/" + jobSeekerProfile.getUserAccountId();
+            if (!Objects.equals(image.getOriginalFilename(), "")) {
                 FileUploadUtil.saveFile(uploadDir,imageName,image);
             }
 
-            if (!Objects.equals(pdf.getOriginalFilename(), " ")) {
+            if (!Objects.equals(pdf.getOriginalFilename(), "")) {
                 FileUploadUtil.saveFile(uploadDir,resumeName,pdf);
             }
 
